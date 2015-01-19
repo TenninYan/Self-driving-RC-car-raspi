@@ -19,21 +19,22 @@ GPIO.setup(Port_list[2], GPIO.OUT)
 GPIO.setup(Port_list[3], GPIO.OUT)
 
 
-GPIO.output(Port_list[0],True)
-GPIO.output(Port_list[1],True)
-print "Up true"
 
 #TCP_IP = '157.82.5.182'
 TCP_IP = 'tenyPi.local'
 TCP_PORT = 5005
 BUFFER_SIZE = 20  # Normally 1024, but we want fast response
-data_old = "none"
+data_old = "go"
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT))
 
+p = GPIO.PWM(Port_list[0], 50)
+p.start(15)
+print "Up true"
+
 while True:
     data=""
-    time.sleep(1)
+    time.sleep(0.5)
     s.listen(1)
     conn, addr = s.accept()
     print 'Connection address:', addr
@@ -45,18 +46,17 @@ while True:
     #while True:
     if not data==data_old:
         if data=="exit":
+            p.stop()
             GPIO.cleanup()
             conn.close()
             sys.exit()
         elif data=="stop":
-                GPIO.output(Port_list[0],False)
-                GPIO.output(Port_list[1],False)
-                print "Up False"
-                data_old = data
+            p.ChangeDutyCycle(0)
+            print "Up False"
+            data_old = data
         elif data=="go":
-                GPIO.output(Port_list[0],True)
-                GPIO.output(Port_list[1],True)
-                print "Up true"
-                data_old = data
+            p.ChangeDutyCycle(15)
+            print "Up true"
+            data_old = data
         else:
             print "Unknown"
