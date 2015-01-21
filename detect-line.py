@@ -28,8 +28,14 @@ data_old = "stop"
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT))
 
-p = GPIO.PWM(Port_list[0], 50)
-p.start(0)
+up = GPIO.PWM(Port_list[0], 50)
+down = GPIO.PWM(Port_list[1], 50)
+right = GPIO.PWM(Port_list[2], 50)
+left = GPIO.PWM(Port_list[3], 50)
+up.start(0)
+down.start(0)
+left.start(0)
+right.start(0)
 print "Up false"
 
 while True:
@@ -45,6 +51,10 @@ while True:
 
     #while True:
     if not data==data_old:
+        up.ChangeDutyCycle(0)
+        down.ChangeDutyCycle(0)
+        right.ChangeDutyCycle(0)
+        left.ChangeDutyCycle(0)
         if data=="exit":
             p.stop()
             GPIO.cleanup()
@@ -55,8 +65,7 @@ while True:
             print "Up False"
             data_old = data
         elif data=="go":
-            #p.ChangeDutyCycle(15)
-            p.ChangeDutyCycle(30)
+            #up.ChangeDutyCycle(15)
             print "Up true"
             data_old = data
         else:

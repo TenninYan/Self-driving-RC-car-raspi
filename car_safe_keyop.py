@@ -48,7 +48,7 @@ GPIO.setup(15, GPIO.OUT)
 #left
 GPIO.setup(16, GPIO.OUT)
 
-Port_list = [11,13,15,16]
+Port_list = [11,13,16,15]
 #On_Off_list = [0,0,0,0]
 
 while True:
