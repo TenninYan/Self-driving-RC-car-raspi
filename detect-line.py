@@ -24,8 +24,6 @@ GPIO.setup(Port_list[2], GPIO.OUT)
 #left
 GPIO.setup(Port_list[3], GPIO.OUT)
 
-
-
 #TCP_IP = '157.82.5.182'
 TCP_IP = 'tenyPi.local'
 TCP_PORT = 5005
@@ -44,13 +42,12 @@ left.start(0)
 right.start(0)
 print "Up false"
 num = 0
+data=""
+s.listen(1)
+conn, addr = s.accept()
+print 'Connection address:', addr
 
 while True:
-    data=""
-    time.sleep(0.5)
-    s.listen(1)
-    conn, addr = s.accept()
-    print 'Connection address:', addr
     data = conn.recv(BUFFER_SIZE)
     if not data: break
     #if not data==data_old: break
