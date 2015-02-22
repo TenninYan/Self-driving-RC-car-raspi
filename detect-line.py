@@ -6,12 +6,13 @@ import time
 
 import sys   
 
-level1 = 20
-level2 = 30
-level3 = 70
-start_speed = 25
-go_speed = 17
-go_speed2 = 30
+level1 = 23
+level2 = 33
+level3 = 44
+start_speed = 24
+go_speed = 13
+go_speed2 = 22
+go_speed3 = 28
 
 GPIO.setmode(GPIO.BOARD)
 Port_list = [11,13,16,15]
@@ -26,7 +27,7 @@ GPIO.setup(Port_list[3], GPIO.OUT)
 
 #TCP_IP = '157.82.5.182'
 TCP_IP = 'tenyPi.local'
-TCP_PORT = 5005
+TCP_PORT = 5006
 BUFFER_SIZE = 20  # Normally 1024, but we want fast response
 data_old = "stop"
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -47,6 +48,8 @@ s.listen(1)
 conn, addr = s.accept()
 print 'Connection address:', addr
 
+go_count = 0
+
 while True:
     data = conn.recv(BUFFER_SIZE)
     if not data: break
@@ -59,7 +62,7 @@ while True:
 
     #while True:
     if not data==data_old:
-        up.ChangeDutyCycle(0)
+        up.ChangeDutyCycle(17)
         down.ChangeDutyCycle(0)
         right.ChangeDutyCycle(0)
         left.ChangeDutyCycle(0)
@@ -79,21 +82,21 @@ while True:
             up.ChangeDutyCycle(go_speed)
             right.ChangeDutyCycle(level1)
         elif data=="r2":
-            up.ChangeDutyCycle(go_speed)
+            up.ChangeDutyCycle(go_speed2)
             right.ChangeDutyCycle(level2)
         elif data=="r3":
-            up.ChangeDutyCycle(go_speed2)
+            up.ChangeDutyCycle(go_speed3)
             right.ChangeDutyCycle(level3)
         elif data=="l1":
             up.ChangeDutyCycle(go_speed)
             left.ChangeDutyCycle(level1)
         elif data=="l2":
-            up.ChangeDutyCycle(go_speed)
+            up.ChangeDutyCycle(go_speed2)
             left.ChangeDutyCycle(level2)
         elif data=="l3":
-            up.ChangeDutyCycle(go_speed2)
+            up.ChangeDutyCycle(go_speed3)
             left.ChangeDutyCycle(level3)
         else:
-            up.ChangeDutyCycle()
+            up.ChangeDutyCycle(go_speed)
             print "Unknown"
         data_old = data
