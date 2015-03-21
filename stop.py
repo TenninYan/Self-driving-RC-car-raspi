@@ -56,7 +56,7 @@ while True:
             data_old = data
         elif data=="go":
             #p.ChangeDutyCycle(15)
-            p.ChangeDutyCycle(30)
+            p.ChangeDutyCycle(20)
             print "Up true"
             data_old = data
         else:
